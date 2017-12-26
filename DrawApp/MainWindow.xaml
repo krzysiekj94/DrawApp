@@ -7,6 +7,54 @@
         mc:Ignorable="d"
         Title="DrawApp by krzysiekj94" Height="350" Width="525">
     <Grid>
-        
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Plik">
+                    <MenuItem Header="Nowy [Ctrl+N]" />
+                    <MenuItem Header="Otwórz [Ctrl+O]" />
+                    <MenuItem Header="Zapisz [Ctrl+S]" />
+                    <MenuItem Header="Cofnij zmiany [Ctrl+Z]" />
+                    <MenuItem Header="Powtórz [Ctrl+Y]" />
+                    <Separator />
+                    <MenuItem Header="Wyjście" />
+                </MenuItem>
+                <MenuItem Header="Operacje">
+                    <MenuItem Header="Transformacja" />
+                    <MenuItem Header="Sepia" />
+                    <MenuItem Header="Rotacja" />
+                </MenuItem>
+                <MenuItem Header="Ustawienia">
+                    <MenuItem Header="Ustaw język" />
+                    <Separator />
+                    <MenuItem Header="Pokaż przybornik" />
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <Grid Margin="0 20 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="10*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <!-- First column -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
+                <UniformGrid Columns="2">
+                    <Button Grid.Row="0">Linia</Button>
+                    <Button Grid.Row="0">Kwadrat</Button>
+                    <Button Grid.Row="0">Elipsa</Button>
+                    <Button Grid.Row="0">Trójkąt</Button>
+                    <Button Grid.Row="0">Trójkąt prostokątny</Button>
+                    <Button Grid.Row="0">Romb</Button>
+                    <Button Grid.Row="0">Pięciokąt</Button>
+                    <Button Grid.Row="0">Strzałka</Button>
+                </UniformGrid>
+            </Grid>
+            <Canvas Grid.Column="1">
+                <Ellipse Height="162" Canvas.Left="132" Canvas.Top="65" Width="164" Fill="AntiqueWhite"/>
+            </Canvas>
+        </Grid>
     </Grid>
 </Window>
