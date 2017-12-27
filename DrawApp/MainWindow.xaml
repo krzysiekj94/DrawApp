@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DrawApp"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="DrawApp by krzysiekj94" Height="350" Width="525">
     <Grid>
@@ -30,7 +31,7 @@
                 </MenuItem>
             </Menu>
         </DockPanel>
-        <Grid Margin="0 20 0 0">
+        <Grid Margin="7 25 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="10*" />
@@ -41,16 +42,44 @@
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="3*" />
                 </Grid.RowDefinitions>
-                <UniformGrid Columns="2">
-                    <Button Grid.Row="0">Linia</Button>
-                    <Button Grid.Row="0">Kwadrat</Button>
-                    <Button Grid.Row="0">Elipsa</Button>
-                    <Button Grid.Row="0">Trójkąt</Button>
-                    <Button Grid.Row="0">Trójkąt prostokątny</Button>
-                    <Button Grid.Row="0">Romb</Button>
-                    <Button Grid.Row="0">Pięciokąt</Button>
-                    <Button Grid.Row="0">Strzałka</Button>
+                <UniformGrid Grid.Row="0" Columns="2">
+                    <Button>Linia</Button>
+                    <Button>Kwadrat</Button>
+                    <Button>Elipsa</Button>
+                    <Button>Trójkąt</Button>
+                    <Button>Trójkąt prostokątny</Button>
+                    <Button>Romb</Button>
+                    <Button>Pięciokąt</Button>
+                    <Button>Strzałka</Button>
                 </UniformGrid>
+                <StackPanel Grid.Row="1">
+                    <TextBlock TextWrapping="WrapWithOverflow" Margin="0 5 0 0">Grubość linii</TextBlock>
+                    <ComboBox SelectedIndex="0" IsEditable="True">
+                        <ComboBoxItem>1px</ComboBoxItem>
+                        <ComboBoxItem>2px</ComboBoxItem>
+                        <ComboBoxItem>3px</ComboBoxItem>
+                    </ComboBox>
+                    <TextBlock TextWrapping="WrapWithOverflow"  Margin="0 5 0 0" >Styl linii</TextBlock>
+                        <ComboBox SelectedIndex="0" IsEditable="True">
+                        <ComboBoxItem>Przerywana</ComboBoxItem>
+                        <ComboBoxItem>Pogrubiona</ComboBoxItem>
+                        <ComboBoxItem>Kropkowana</ComboBoxItem>
+                    </ComboBox>
+                    <TextBlock TextWrapping="WrapWithOverflow" Margin="0 5 0 0" >Kolor obramowania</TextBlock>
+                    <xctk:ColorPicker Name="BorderLineColorPicker" 
+                        AvailableColorsHeader="Dostępne kolory"
+                        StandardColorsHeader="Standardowe kolory"
+                        StandardButtonHeader="Standardowe"
+                        AdvancedButtonHeader="Zaawansowane"
+                        SelectedColor="Black"/>
+                    <TextBlock TextWrapping="WrapWithOverflow"  Margin="0 5 0 0" >Wypełnienie</TextBlock>
+                    <xctk:ColorPicker Name="FillColorPicker"
+                        AvailableColorsHeader="Dostępne kolory"
+                        StandardColorsHeader="Standardowe kolory"
+                        StandardButtonHeader="Standardowe"
+                        AdvancedButtonHeader="Zaawansowane"
+                        SelectedColor="White"/>
+                </StackPanel>
             </Grid>
             <Canvas Grid.Column="1">
                 <Ellipse Height="162" Canvas.Left="132" Canvas.Top="65" Width="164" Fill="AntiqueWhite"/>
