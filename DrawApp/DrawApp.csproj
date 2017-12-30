@@ -80,6 +80,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DrawFigure.cs" />
+    <Compile Include="FigureTypeEnum.cs" />
+    <Compile Include="IOperation.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -111,6 +114,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DrawInterface\DrawInterface.csproj">
+      <Project>{93990cef-7c6a-49a4-9cb4-33f03d9ae4cf}</Project>
+      <Name>DrawInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
