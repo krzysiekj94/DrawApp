@@ -1,165 +1,169 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DrawApp
 {
-    /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        Stack<Line> operationsStack;
-        Point currentPoint;
-        private DrawInterface.IMainInterface w;
-        private int counter;
+        Stack<UIElement> m_redoStack;
+        Dictionary<string, DrawInterface.IPluginShapes> drawPlugins;
+        List<DrawInterface.IPluginShapes> drawPluginsList;
+        DrawInterface.IPluginShapes currentActivePlugin;
 
         public MainWindow()
         {
             InitializeComponent();
-            LoadPlugins();
-            operationsStack = new Stack<Line>();
-            currentPoint = new Point();
-            counter = 0;
+            drawPluginsList = PluginsManager.LoadPlugins<DrawInterface.IPluginShapes>().ToList();
+            drawPlugins = new Dictionary<string, DrawInterface.IPluginShapes>();
+            m_redoStack = new Stack<UIElement>();
+
+            foreach ( var x in drawPluginsList )
+            {
+                drawPlugins.Add(x.GetName(), x);
+            }
+
+            foreach ( var drawPlugin in drawPlugins)
+            {   
+                Button pluginButton = new Button();
+                pluginButton.Tag = drawPlugin.Key;
+                pluginButton.Content = drawPlugin.Value.GetName();
+                pluginButton.Click += pluginButton_Click;
+                shapePlugins.Items.Add(pluginButton);
+            }
         }
 
-        public void LoadPlugins()
+        public void pluginButton_Click(object sender, EventArgs e)
         {
-            var a = Assembly.LoadFile(@"C:\PROJEKTY\drawapp\DrawPlugins\bin\Debug\DrawPlugins.dll");
-            Type selectedType = null;
-            foreach (var t in a.GetTypes())
+            Button buttonPlugin = sender as Button;
+            string key = String.Empty;
+            DrawInterface.IPluginShapes pluginShape = null;
+
+            if( currentActivePlugin != null )
             {
-                if (t.IsPublic
-                    && t.IsClass
-                    && typeof(DrawInterface.IMainInterface).IsAssignableFrom(t))
+                currentActivePlugin.Dispose();
+            }
+
+            if ( buttonPlugin != null )
+            {
+               key = buttonPlugin.Tag.ToString();
+
+                if (drawPlugins.ContainsKey(key))
                 {
-                    selectedType = t;
+                    pluginShape = drawPlugins[key];
+                }
+
+                if( pluginShape != null )
+                {
+                    currentActivePlugin = pluginShape;
+                    currentActivePlugin.Init( drawCanvas, 
+                                              getCurrentColorBorder(),
+                                              getCurrentColorShapeFill(),
+                                              getCurrentThickness(),
+                                              getStyleLine() );
                 }
             }
-            if (selectedType == null)
+        }
+
+        Color getCurrentColorBorder()
+        {
+            Color currentColorBorder = Colors.Black;
+            currentColorBorder = borderShapeLineColorPicker.SelectedColor.Value;
+
+            return currentColorBorder;
+        }
+
+        int getStyleLine()
+        {
+            int selectedIndexStyleCombobox = 0;
+
+            if( styleLineComboBox.SelectedIndex != -1)
             {
-                throw new Exception();
+                selectedIndexStyleCombobox = styleLineComboBox.SelectedIndex;
             }
 
-            var o = Activator.CreateInstance(selectedType);
-            w = (DrawInterface.IMainInterface)o;
+            return selectedIndexStyleCombobox;
         }
 
-        private void lineRadioButton_Checked(object sender, RoutedEventArgs e)
+        Color getCurrentColorShapeFill()
         {
-             
+            Color currentColorShapeFill = Colors.Black;
+            currentColorShapeFill = fillShapeColorPicker.SelectedColor.Value;
+
+            return currentColorShapeFill;
         }
 
-        private void drawCanvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        int getCurrentThickness()
         {
-            if (curveRadioButton.IsChecked.Value // rysowanie krzywej przy pomocy ołówka
-                && e.ButtonState == MouseButtonState.Pressed)
+            int thickness = 1;
+
+            if( !int.TryParse(thicknessCombobox.Text, out thickness) || thickness < 1 )
             {
-                currentPoint = e.GetPosition(drawCanvas);
+                thickness = 1;
+            }
+            else if( thickness > 10)
+            {
+                thickness = 10;
             }
 
-            if( lineRadioButton.IsChecked.Value // rysowanie linii na podstawie zaznaczenia 2-óch punktów
-                && e.ButtonState == MouseButtonState.Pressed && counter == 0)
+            return thickness;
+        }
+
+        private void ReInitializeShapeParams()
+        {
+            if( currentActivePlugin != null )
             {
-                currentPoint = e.GetPosition(drawCanvas);
-                counter++;
-            }
-        }
-
-        private void drawCanvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if ( curveRadioButton.IsChecked.Value 
-                && e.LeftButton == MouseButtonState.Pressed )
-            {
-                Line line = new Line();
-                line.Stroke = SystemColors.WindowFrameBrush;
-                line.X1 = currentPoint.X;
-                line.Y1 = currentPoint.Y;
-                line.X2 = e.GetPosition(drawCanvas).X;
-                line.Y2 = e.GetPosition(drawCanvas).Y;
-
-                currentPoint = e.GetPosition(drawCanvas);
-
-                drawCanvas.Children.Add(line);
-                operationsStack.Push(line);
-            }
-        }
-
-        private void squareRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void elipseRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void rectangleRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void rectangleRightRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void diamondRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void pentagonRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void curveRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void drawCanvas_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (lineRadioButton.IsChecked.Value
-              && counter > 0 )
-            {
-                Line line = new Line();
-                line.Stroke = SystemColors.WindowFrameBrush;
-                line.X1 = currentPoint.X;
-                line.Y1 = currentPoint.Y;
-                line.X2 = e.GetPosition(drawCanvas).X;
-                line.Y2 = e.GetPosition(drawCanvas).Y;
-                drawCanvas.Children.Add(line);
-                operationsStack.Push(line);
-                counter = 0;
+                currentActivePlugin.Init(drawCanvas,
+                                        getCurrentColorBorder(),
+                                        getCurrentColorShapeFill(),
+                                        getCurrentThickness(),
+                                        getStyleLine());
             }
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void thicknessCombobox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            int countElementCanvas = drawCanvas.Children.Count;
-            
-            if( countElementCanvas < 1 )
+            ReInitializeShapeParams();
+        }
+        private void styleLineCombobox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ReInitializeShapeParams();
+        }
+
+        private void borderShapeLineColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            ReInitializeShapeParams();
+        }
+
+        private void fillShapeColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            ReInitializeShapeParams();
+        }
+
+        private void redoOperation_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentActivePlugin != null)
             {
-                drawCanvas.Children.Clear();
+                if( m_redoStack.Count > 0 )
+                {
+                    drawCanvas.Children.Add( m_redoStack.Pop() );
+                }
             }
-            else
+        }
+        private void undoOperation_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentActivePlugin != null)
             {
-                drawCanvas.Children.Remove(operationsStack.Pop());
+                int indexLastElement = drawCanvas.Children.Count - 1;
+
+                if (indexLastElement >= 0)
+                {
+                    m_redoStack.Push(drawCanvas.Children[indexLastElement]);
+                    drawCanvas.Children.RemoveAt(indexLastElement);
+                }
             }
         }
     }

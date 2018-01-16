@@ -11,11 +11,11 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="Plik">
-                    <MenuItem Header="Nowy [Ctrl+N]" />
-                    <MenuItem Header="Otwórz [Ctrl+O]" />
-                    <MenuItem Header="Zapisz [Ctrl+S]" />
-                    <MenuItem Header="Cofnij zmiany [Ctrl+Z]" Click="MenuItem_Click" />
-                    <MenuItem Header="Powtórz [Ctrl+Y]" />
+                    <MenuItem Header="Nowy" />
+                    <MenuItem Header="Otwórz" />
+                    <MenuItem Header="Zapisz" />
+                    <MenuItem Header="Cofnij zmiany" Click="undoOperation_Click" />
+                    <MenuItem Header="Powtórz zmiany" Click="redoOperation_Click" />
                     <Separator />
                     <MenuItem Header="Wyjście" />
                 </MenuItem>
@@ -42,43 +42,41 @@
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="3*" />
                 </Grid.RowDefinitions>
-                <UniformGrid Grid.Row="0" Columns="2">
-                    <RadioButton Name="lineRadioButton" Checked="lineRadioButton_Checked">Linia</RadioButton>
-                    <RadioButton Name="squareRadioButton" Checked="squareRadioButton_Checked">Kwadrat</RadioButton>
-                    <RadioButton Name="elipseRadioButton" Checked="elipseRadioButton_Checked">Elipsa</RadioButton>
-                    <RadioButton Name="rectangleRadioButton" Checked="rectangleRadioButton_Checked">Trójkąt</RadioButton>
-                    <RadioButton Name="rectangleRightRadioButton" Checked="rectangleRightRadioButton_Checked">Trójkąt prostokątny</RadioButton>
-                    <RadioButton Name="diamondRadioButton" Checked="diamondRadioButton_Checked">Romb</RadioButton>
-                    <RadioButton Name="pentagonRadioButton" Checked="pentagonRadioButton_Checked">Pięciokąt</RadioButton>
-                    <RadioButton Name="curveRadioButton" Checked="curveRadioButton_Checked">Ołówek</RadioButton>
-                </UniformGrid>
+                <Grid Grid.Row="0">
+                    <ToolBarTray Orientation="Vertical" HorizontalAlignment="Center">
+                        <ToolBar Name="shapePlugins" HorizontalContentAlignment="Stretch">
+                        </ToolBar>
+                    </ToolBarTray>
+                </Grid>
                 <StackPanel Grid.Row="1">
-                    <TextBlock TextWrapping="WrapWithOverflow" Margin="0 5 0 0">Grubość linii</TextBlock>
-                    <ComboBox SelectedIndex="0" IsEditable="True">
-                        <ComboBoxItem>1px</ComboBoxItem>
-                        <ComboBoxItem>2px</ComboBoxItem>
-                        <ComboBoxItem>3px</ComboBoxItem>
+                    <TextBlock TextWrapping="WrapWithOverflow" Margin="0 5 0 0">Grubość linii [px]</TextBlock>
+                    <ComboBox x:Name="thicknessCombobox" SelectedIndex="0" IsEditable="True" TextBoxBase.TextChanged="thicknessCombobox_TextChanged">
+                        <ComboBoxItem>1</ComboBoxItem>
+                        <ComboBoxItem>2</ComboBoxItem>
+                        <ComboBoxItem>3</ComboBoxItem>
                     </ComboBox>
-                    <TextBlock TextWrapping="WrapWithOverflow"  Margin="0 5 0 0" >Styl linii</TextBlock>
-                    <ComboBox SelectedIndex="0" IsEditable="True">
-                        <ComboBoxItem>Przerywana</ComboBoxItem>
-                        <ComboBoxItem>Pogrubiona</ComboBoxItem>
-                        <ComboBoxItem>Kropkowana</ComboBoxItem>
+                    <TextBlock TextWrapping="WrapWithOverflow" Margin="0 5 0 0">Styl linii</TextBlock>
+                    <ComboBox Name="styleLineComboBox" SelectedIndex="0" IsEditable="True" TextBoxBase.TextChanged="styleLineCombobox_TextChanged">
+                        <ComboBoxItem Name="cuttedLineStyle" Content="Ciągła"></ComboBoxItem>
+                        <ComboBoxItem Name="boldLineStyle" Content="Kropkowana"></ComboBoxItem>
+                        <ComboBoxItem Name="dottedLineStyle" Content="Przerywana"></ComboBoxItem>
                     </ComboBox>
                     <TextBlock TextWrapping="WrapWithOverflow" Margin="0 5 0 0" >Kolor obramowania</TextBlock>
-                    <xctk:ColorPicker Name="BorderLineColorPicker" 
+                    <xctk:ColorPicker Name="borderShapeLineColorPicker" 
                         AvailableColorsHeader="Dostępne kolory"
                         StandardColorsHeader="Standardowe kolory"
                         StandardButtonHeader="Standardowe"
                         AdvancedButtonHeader="Zaawansowane"
-                        SelectedColor="Black"/>
+                        SelectedColor="Black"
+                        SelectedColorChanged="borderShapeLineColorPicker_SelectedColorChanged"/>
                     <TextBlock TextWrapping="WrapWithOverflow"  Margin="0 5 0 0" >Wypełnienie</TextBlock>
-                    <xctk:ColorPicker Name="FillColorPicker"
+                    <xctk:ColorPicker Name="fillShapeColorPicker"
                         AvailableColorsHeader="Dostępne kolory"
                         StandardColorsHeader="Standardowe kolory"
                         StandardButtonHeader="Standardowe"
                         AdvancedButtonHeader="Zaawansowane"
-                        SelectedColor="White"/>
+                        SelectedColor="White"
+                        SelectedColorChanged="fillShapeColorPicker_SelectedColorChanged"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="1">
@@ -86,7 +84,7 @@
                     <RowDefinition Height="9*" />
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
-                <Canvas Name="drawCanvas" Grid.Row="0" Background="White" Margin="0 0 10 0" MouseDown="drawCanvas_MouseDown" MouseMove="drawCanvas_MouseMove" MouseUp="drawCanvas_MouseUp">
+                <Canvas Name="drawCanvas" Grid.Row="0" Background="White" Margin="0 0 10 0">
                     
                 </Canvas>
                 <ProgressBar Grid.Row="1" Grid.Column="1" Height="23" HorizontalAlignment="Right" Width="120" Margin="0 0 10 0"/>
