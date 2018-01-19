@@ -1,39 +1,101 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace DrawApp
 {
     public partial class MainWindow : Window
     {
         Stack<UIElement> m_redoStack;
-        Dictionary<string, DrawInterface.IPluginShapes> drawPlugins;
+
+        Dictionary<string, DrawInterface.IPluginShapes> drawPluginsDictionary;
+        Dictionary<string, DrawInterface.IPluginOperations> operationsPluginsDictionary;
+
         List<DrawInterface.IPluginShapes> drawPluginsList;
+        List<DrawInterface.IPluginOperations> operationPluginsList;
+
         DrawInterface.IPluginShapes currentActivePlugin;
+        DrawInterface.IPluginOperations currentOperationPlugin;
 
         public MainWindow()
         {
             InitializeComponent();
+
             drawPluginsList = PluginsManager.LoadPlugins<DrawInterface.IPluginShapes>().ToList();
-            drawPlugins = new Dictionary<string, DrawInterface.IPluginShapes>();
+            operationPluginsList = PluginsManager.LoadPlugins<DrawInterface.IPluginOperations>().ToList();
+
+            drawPluginsDictionary = new Dictionary<string, DrawInterface.IPluginShapes>();
+            operationsPluginsDictionary = new Dictionary<string, DrawInterface.IPluginOperations>();
+ 
             m_redoStack = new Stack<UIElement>();
 
-            foreach ( var x in drawPluginsList )
+            //insert list draw plugins into dictionary
+            foreach ( var plugin in drawPluginsList )
             {
-                drawPlugins.Add(x.GetName(), x);
+                drawPluginsDictionary.Add(plugin.GetName(), plugin);
             }
 
-            foreach ( var drawPlugin in drawPlugins)
+            //insert list operation plugins into dictionary
+            foreach( var plugin in operationPluginsList )
+            {
+                operationsPluginsDictionary.Add(plugin.GetName(), plugin);
+            }
+
+            //add draw plugins into toolbar
+            foreach( var plugin in drawPluginsDictionary)
             {   
                 Button pluginButton = new Button();
-                pluginButton.Tag = drawPlugin.Key;
-                pluginButton.Content = drawPlugin.Value.GetName();
+                pluginButton.Tag = plugin.Key;
+                pluginButton.Content = plugin.Value.GetName();
                 pluginButton.Click += pluginButton_Click;
                 shapePlugins.Items.Add(pluginButton);
             }
+
+            //add operation plugins into menu
+            foreach( var plugin in operationsPluginsDictionary )
+            {
+                MenuItem operationDrawMenuItem = new MenuItem();
+                operationDrawMenuItem.Header = plugin.Key;
+                operationDrawMenuItem.Click += operationsMenuItem_Click;
+                operationsMenu.Items.Add(operationDrawMenuItem);
+            }
+        }
+
+        private void operationsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItemPlugin = sender as MenuItem;
+            string key = String.Empty;
+            DrawInterface.IPluginOperations pluginOperation = null;
+
+            if( currentOperationPlugin != null )
+            {
+                currentOperationPlugin.Dispose();
+            }
+
+            if( menuItemPlugin != null )
+            {
+                key = menuItemPlugin.Header.ToString();
+
+                if (operationsPluginsDictionary.ContainsKey(key))
+                {
+                    pluginOperation = operationsPluginsDictionary[key];
+                }
+
+                if (pluginOperation != null)
+                {
+                    currentOperationPlugin = pluginOperation;
+                    if( currentOperationPlugin.Init(drawCanvas, drawProgressBar) )
+                    {
+                        currentOperationPlugin.DoOperation();
+                    }
+                }
+            }
+
         }
 
         public void pluginButton_Click(object sender, EventArgs e)
@@ -51,9 +113,9 @@ namespace DrawApp
             {
                key = buttonPlugin.Tag.ToString();
 
-                if (drawPlugins.ContainsKey(key))
+                if (drawPluginsDictionary.ContainsKey(key))
                 {
-                    pluginShape = drawPlugins[key];
+                    pluginShape = drawPluginsDictionary[key];
                 }
 
                 if( pluginShape != null )
@@ -165,6 +227,56 @@ namespace DrawApp
                     drawCanvas.Children.RemoveAt(indexLastElement);
                 }
             }
+        }
+
+        private void createNewDraw_Click(object sender, RoutedEventArgs e)
+        {
+            if( MessageBox.Show("Czy chcesz utworzyć nowy rysunek? Niezapisane zmiany zostaną utracone.", "Tworzenie nowego rysunku", 
+                                MessageBoxButton.YesNo, 
+                                MessageBoxImage.Question, 
+                                MessageBoxResult.No) 
+                == MessageBoxResult.Yes )
+            {
+                drawCanvas.Children.Clear();
+            }
+        }
+
+        private void openDraw_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select a picture";
+            op.Filter = "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+              "PNG (*.png)|*.png|" +
+              "(*.*)|*.*";
+
+            if (op.ShowDialog() == true)
+            {
+                ImageBrush brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri(op.FileName, UriKind.Relative));
+                drawCanvas.Background = brush;
+            }
+        }
+
+        private void saveDraw_Click(object sender, RoutedEventArgs e)
+        {
+            /*
+            SaveFileDialog dialog = new SaveFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                
+                int width = Convert.ToInt32(drawCanvas.Width);
+                int height = Convert.ToInt32(drawCanvas.Height);
+                BitmapImage bmp = new BitmapImage(width, height);
+                drawImage.DrawToBitmap(bmp, new Rectangle(0, 0, width, height);
+                bmp.Save(dialog.FileName, ImageFormat.Jpeg);
+                
+            }
+            */
+        }
+
+        private void closeApp_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

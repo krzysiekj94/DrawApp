@@ -12,7 +12,6 @@ namespace DrawInterface
                     Color colorShapeFill, 
                     int thickness, 
                     int setStyleLine    );
-        void backOperation();
         string GetName();
     }
 }

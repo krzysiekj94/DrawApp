@@ -72,6 +72,20 @@ namespace Plugin.Rectangle
 
                 Canvas.SetTop(rectangle, startPointRect.Y);
                 Canvas.SetLeft(rectangle, startPointRect.X);
+
+                switch (m_styleLine)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        rectangle.StrokeDashArray = new DoubleCollection() { 0, 1 };
+                        rectangle.StrokeDashCap = PenLineCap.Round;
+                        break;
+                    case 2:
+                        rectangle.StrokeDashArray = new DoubleCollection() { 5, 5 };
+                        break;
+                }
+
                 canvasDraw.Children.Add(rectangle);
             }
         }
@@ -89,11 +103,8 @@ namespace Plugin.Rectangle
                     var x = Math.Min(endPoint.X, startPointRect.X);
                     var y = Math.Min(endPoint.Y, startPointRect.Y);
 
-                    var w = Math.Max(endPoint.X, startPointRect.X) - x;
-                    var h = Math.Max(endPoint.Y, startPointRect.Y) - y;
-
-                    rect.Width = w;
-                    rect.Height = h;
+                    rect.Width = Math.Max(endPoint.X, startPointRect.X) - x;
+                    rect.Height = Math.Max(endPoint.Y, startPointRect.Y) - y;
 
                     Canvas.SetLeft(rect, x);
                     Canvas.SetTop(rect, y);

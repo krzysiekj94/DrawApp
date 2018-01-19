@@ -11,18 +11,15 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="Plik">
-                    <MenuItem Header="Nowy" />
-                    <MenuItem Header="Otwórz" />
-                    <MenuItem Header="Zapisz" />
+                    <MenuItem Header="Nowy" Click="createNewDraw_Click" />
+                    <MenuItem Header="Otwórz" Click="openDraw_Click"/>
+                    <MenuItem Header="Zapisz" Click="saveDraw_Click" />
                     <MenuItem Header="Cofnij zmiany" Click="undoOperation_Click" />
                     <MenuItem Header="Powtórz zmiany" Click="redoOperation_Click" />
                     <Separator />
-                    <MenuItem Header="Wyjście" />
+                    <MenuItem Header="Wyjście" Click="closeApp_Click" />
                 </MenuItem>
-                <MenuItem Header="Operacje">
-                    <MenuItem Header="Transformacja" />
-                    <MenuItem Header="Sepia" />
-                    <MenuItem Header="Rotacja" />
+                <MenuItem Name="operationsMenu" Header="Operacje">
                 </MenuItem>
                 <MenuItem Header="Ustawienia">
                     <MenuItem Header="Ustaw język" />
@@ -84,10 +81,9 @@
                     <RowDefinition Height="9*" />
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
-                <Canvas Name="drawCanvas" Grid.Row="0" Background="White" Margin="0 0 10 0">
-                    
+                <Canvas Name="drawCanvas" Grid.Row="0" Background="White" Margin="0 0 10 0" ClipToBounds="true">
                 </Canvas>
-                <ProgressBar Grid.Row="1" Grid.Column="1" Height="23" HorizontalAlignment="Right" Width="120" Margin="0 0 10 0"/>
+                <ProgressBar Name="drawProgressBar" Grid.Row="1" Grid.Column="1" Height="23" HorizontalAlignment="Right" Width="120" Margin="0 0 10 0"/>
             </Grid>
         </Grid>
     </Grid>

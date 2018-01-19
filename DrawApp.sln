@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginRectangle", "Plugin.R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginLine", "Plugin.Line\PluginLine.csproj", "{973819C1-1973-483F-877D-93C663F62439}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginInvertOperation", "PluginInvertOperation\PluginInvertOperation.csproj", "{F94C0499-A44A-4E8F-8282-507096612F54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{973819C1-1973-483F-877D-93C663F62439}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{973819C1-1973-483F-877D-93C663F62439}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{973819C1-1973-483F-877D-93C663F62439}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F94C0499-A44A-4E8F-8282-507096612F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F94C0499-A44A-4E8F-8282-507096612F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F94C0499-A44A-4E8F-8282-507096612F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F94C0499-A44A-4E8F-8282-507096612F54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
