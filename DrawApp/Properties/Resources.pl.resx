@@ -118,69 +118,69 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="advancedString" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Zaawansowane</value>
   </data>
   <data name="availableColorsString" xml:space="preserve">
-    <value>Available Colors</value>
+    <value>Dostępne kolory</value>
   </data>
   <data name="boldLineString" xml:space="preserve">
-    <value>Bold line [px]</value>
+    <value>Grubość linii [px]</value>
   </data>
   <data name="borderColorString" xml:space="preserve">
-    <value>Border color</value>
+    <value>Kolor obramowania</value>
   </data>
   <data name="closeAppString" xml:space="preserve">
-    <value>Close</value>
+    <value>Wyjście</value>
   </data>
   <data name="cuttedLineString" xml:space="preserve">
-    <value>Cutted</value>
+    <value>Przerywana</value>
   </data>
   <data name="dottedLineString" xml:space="preserve">
-    <value>Dotted</value>
+    <value>Kropkowana</value>
   </data>
   <data name="fileString" xml:space="preserve">
-    <value>File</value>
+    <value>Plik</value>
   </data>
   <data name="fillColorString" xml:space="preserve">
-    <value>Fill color</value>
+    <value>Wypełnienie</value>
   </data>
   <data name="newFileString" xml:space="preserve">
-    <value>New</value>
+    <value>Nowy</value>
   </data>
   <data name="openFileString" xml:space="preserve">
-    <value>Open</value>
+    <value>Otwórz</value>
   </data>
   <data name="operationsString" xml:space="preserve">
-    <value>Operations</value>
+    <value>Operacje</value>
   </data>
   <data name="redoOperationString" xml:space="preserve">
-    <value>Redo</value>
+    <value>Powtórz zmiany</value>
   </data>
   <data name="saveFileString" xml:space="preserve">
-    <value>Save</value>
+    <value>Zapisz</value>
   </data>
   <data name="setEnglishLang" xml:space="preserve">
-    <value>Set English Language</value>
+    <value>Ustaw język angielski</value>
   </data>
   <data name="setPolishLang" xml:space="preserve">
-    <value>Set Polish Language</value>
+    <value>Ustaw język polski</value>
   </data>
   <data name="settingsString" xml:space="preserve">
-    <value>Settings</value>
+    <value>Ustawienia</value>
   </data>
   <data name="solidLineString" xml:space="preserve">
-    <value>Solid</value>
+    <value>Ciągła</value>
   </data>
   <data name="standardColorsString" xml:space="preserve">
-    <value>Standard Colors</value>
+    <value>Standardowe kolory</value>
   </data>
   <data name="standardString" xml:space="preserve">
-    <value>Standard</value>
+    <value>Standardowe</value>
   </data>
   <data name="styleLineString" xml:space="preserve">
-    <value>Style line</value>
+    <value>Styl linii</value>
   </data>
   <data name="undoOperationString" xml:space="preserve">
-    <value>Undo</value>
+    <value>Cofnij zmiany</value>
   </data>
 </root>

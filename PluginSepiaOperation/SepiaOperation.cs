@@ -14,11 +14,6 @@ namespace PluginSepiaOperation
 {
     public class SepiaOperation : DrawInterface.IPluginOperations
     {
-        Canvas m_canvasCopy;
-        ProgressBar m_progressBar;
-        private BackgroundWorker m_backgrondWorker;
-
-
         public void Dispose()
         {
         }

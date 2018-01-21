@@ -10,21 +10,21 @@
     <Grid>
         <DockPanel>
             <Menu Name="menuItemFile" DockPanel.Dock="Top">
-                <MenuItem Header="Plik">
-                    <MenuItem Header="Nowy" Click="createNewDraw_Click" />
-                    <MenuItem Header="Otwórz" Click="openDraw_Click"/>
-                    <MenuItem Header="Zapisz" Click="saveDraw_Click" />
-                    <MenuItem Header="Cofnij zmiany" Click="undoOperation_Click" />
-                    <MenuItem Header="Powtórz zmiany" Click="redoOperation_Click" />
+                <MenuItem Header="{Binding Path=fileString, Source={StaticResource Resources}}">
+                    <MenuItem Header="{Binding Path=newFileString, Source={StaticResource Resources}}" Click="createNewDraw_Click" />
+                    <MenuItem Header="{Binding Path=openFileString, Source={StaticResource Resources}}" Click="openDraw_Click"/>
+                    <MenuItem Header="{Binding Path=saveFileString, Source={StaticResource Resources}}" Click="saveDraw_Click" />
+                    <MenuItem Header="{Binding Path=undoOperationString, Source={StaticResource Resources}}" Click="undoOperation_Click" />
+                    <MenuItem Header="{Binding Path=redoOperationString, Source={StaticResource Resources}}" Click="redoOperation_Click" />
                     <Separator />
-                    <MenuItem Header="Wyjście" Click="closeApp_Click" />
+                    <MenuItem Header="{Binding Path=closeAppString, Source={StaticResource Resources}}" Click="closeApp_Click" />
                 </MenuItem>
-                <MenuItem Name="operationsMenu" Header="Operacje">
+                <MenuItem Name="operationsMenu" Header="{Binding Path=operationsString, Source={StaticResource Resources}}">
                 </MenuItem>
-                <MenuItem Header="Ustawienia">
-                    <MenuItem Header="Ustaw język" />
+                <MenuItem Header="{Binding Path=settingsString, Source={StaticResource Resources}}">
+                    <MenuItem Header="{Binding Path=setPolishLang, Source={StaticResource Resources}}" Click="setPolishLang_Click" />
                     <Separator />
-                    <MenuItem Header="Pokaż przybornik" />
+                    <MenuItem Header="{Binding Path=setEnglishLang, Source={StaticResource Resources}}" Click="setEnglishLang_Click" />
                 </MenuItem>
             </Menu>
         </DockPanel>
@@ -46,32 +46,32 @@
                     </ToolBarTray>
                 </Grid>
                 <StackPanel Grid.Row="1">
-                    <TextBlock TextWrapping="WrapWithOverflow" Margin="0 5 0 0">Grubość linii [px]</TextBlock>
+                    <TextBlock TextWrapping="WrapWithOverflow" Margin="0 5 0 0" Text="{Binding Path=boldLineString, Source={StaticResource Resources}}"></TextBlock>
                     <ComboBox x:Name="thicknessCombobox" SelectedIndex="0" IsEditable="True" TextBoxBase.TextChanged="thicknessCombobox_TextChanged">
                         <ComboBoxItem>1</ComboBoxItem>
                         <ComboBoxItem>2</ComboBoxItem>
                         <ComboBoxItem>3</ComboBoxItem>
                     </ComboBox>
-                    <TextBlock TextWrapping="WrapWithOverflow" Margin="0 5 0 0">Styl linii</TextBlock>
+                    <TextBlock TextWrapping="WrapWithOverflow" Margin="0 5 0 0" Text="{Binding Path=styleLineString, Source={StaticResource Resources}}"></TextBlock>
                     <ComboBox Name="styleLineComboBox" SelectedIndex="0" IsEditable="True" TextBoxBase.TextChanged="styleLineCombobox_TextChanged">
-                        <ComboBoxItem Name="cuttedLineStyle" Content="Ciągła"></ComboBoxItem>
-                        <ComboBoxItem Name="boldLineStyle" Content="Kropkowana"></ComboBoxItem>
-                        <ComboBoxItem Name="dottedLineStyle" Content="Przerywana"></ComboBoxItem>
+                        <ComboBoxItem Name="cuttedLineStyle" Content="{Binding Path=solidLineString, Source={StaticResource Resources}}"></ComboBoxItem>
+                        <ComboBoxItem Name="boldLineStyle" Content="{Binding Path=dottedLineString, Source={StaticResource Resources}}"></ComboBoxItem>
+                        <ComboBoxItem Name="dottedLineStyle" Content="{Binding Path=cuttedLineString, Source={StaticResource Resources}}"></ComboBoxItem>
                     </ComboBox>
-                    <TextBlock TextWrapping="WrapWithOverflow" Margin="0 5 0 0" >Kolor obramowania</TextBlock>
+                    <TextBlock TextWrapping="WrapWithOverflow" Margin="0 5 0 0" Text="{Binding Path=borderColorString, Source={StaticResource Resources}}"></TextBlock>
                     <xctk:ColorPicker Name="borderShapeLineColorPicker" 
-                        AvailableColorsHeader="Dostępne kolory"
-                        StandardColorsHeader="Standardowe kolory"
-                        StandardButtonHeader="Standardowe"
-                        AdvancedButtonHeader="Zaawansowane"
+                        AvailableColorsHeader="{Binding Path=availableColorsString, Source={StaticResource Resources}}"
+                        StandardColorsHeader="{Binding Path=standardColorsString, Source={StaticResource Resources}}"
+                        StandardButtonHeader="{Binding Path=standardString, Source={StaticResource Resources}}"
+                        AdvancedButtonHeader="{Binding Path=advancedString, Source={StaticResource Resources}}"
                         SelectedColor="Black"
                         SelectedColorChanged="borderShapeLineColorPicker_SelectedColorChanged"/>
-                    <TextBlock TextWrapping="WrapWithOverflow"  Margin="0 5 0 0" >Wypełnienie</TextBlock>
+                    <TextBlock TextWrapping="WrapWithOverflow"  Margin="0 5 0 0" Text="{Binding Path=fillColorString, Source={StaticResource Resources}}"></TextBlock>
                     <xctk:ColorPicker Name="fillShapeColorPicker"
-                        AvailableColorsHeader="Dostępne kolory"
-                        StandardColorsHeader="Standardowe kolory"
-                        StandardButtonHeader="Standardowe"
-                        AdvancedButtonHeader="Zaawansowane"
+                        AvailableColorsHeader="{Binding Path=availableColorsString, Source={StaticResource Resources}}"
+                        StandardColorsHeader="{Binding Path=standardColorsString, Source={StaticResource Resources}}"
+                        StandardButtonHeader="{Binding Path=standardString, Source={StaticResource Resources}}"
+                        AdvancedButtonHeader="{Binding Path=advancedString, Source={StaticResource Resources}}"
                         SelectedColor="White"
                         SelectedColorChanged="fillShapeColorPicker_SelectedColorChanged"/>
                 </StackPanel>

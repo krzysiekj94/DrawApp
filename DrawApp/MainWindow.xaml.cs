@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -32,8 +33,8 @@ namespace DrawApp
 
         public MainWindow()
         {
+            CultureResources.ChangeCulture(new CultureInfo("pl"));
             InitializeComponent();
-
 
             InitializeBackGroundWorker();
 
@@ -468,6 +469,16 @@ namespace DrawApp
         private void closeApp_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void setPolishLang_Click(object sender, RoutedEventArgs e)
+        {
+            CultureResources.ChangeCulture(new CultureInfo("pl"));
+        }
+
+        private void setEnglishLang_Click(object sender, RoutedEventArgs e)
+        {
+            CultureResources.ChangeCulture(new CultureInfo("en"));
         }
     }
 }
