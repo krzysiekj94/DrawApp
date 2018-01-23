@@ -14,6 +14,12 @@ namespace PluginGreenScaleTransformation
 {
     public class GreenScaleTransformation : DrawInterface.IPluginOperations
     {
+        bool bIsPolishLanguage;
+
+        public GreenScaleTransformation()
+        {
+            bIsPolishLanguage = false;
+        }
         public void Dispose()
         {
         }
@@ -28,7 +34,25 @@ namespace PluginGreenScaleTransformation
 
         public string GetName()
         {
-            return "Odcień zieleni";
+            string nameOperation = "";
+            if (bIsPolishLanguage)
+            {
+                nameOperation = "Odcień zieleni";
+            }
+            else
+            {
+                nameOperation = "Green filter";
+            }
+
+            return nameOperation;
+        }
+
+        public void setLanguage(string languageString)
+        {
+            if (languageString == "pl")
+            {
+                bIsPolishLanguage = true;
+            }
         }
     }
 }

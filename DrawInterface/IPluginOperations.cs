@@ -12,5 +12,6 @@ namespace DrawInterface
     {
         void SetPixel(ref byte B, ref byte G, ref byte R, ref byte A);
         string GetName();
+        void setLanguage(string languageString);
     }
 }

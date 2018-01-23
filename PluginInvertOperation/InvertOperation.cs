@@ -16,6 +16,11 @@ namespace PluginInvertOperation
 {
     public class InvertOperation : DrawInterface.IPluginOperations
     {
+        bool bIsPolishLanguage;
+        public InvertOperation()
+        {
+            bIsPolishLanguage = false;
+        }
 
         public void Dispose()
         {
@@ -31,7 +36,25 @@ namespace PluginInvertOperation
 
         public string GetName()
         {
-            return "Negatyw";
+            string nameOperation = "";
+            if (bIsPolishLanguage)
+            {
+                nameOperation = "Negatyw";
+            }
+            else
+            {
+                nameOperation = "Invert";
+            }
+
+            return nameOperation;
+        }
+
+        public void setLanguage(string languageString)
+        {
+            if (languageString == "pl")
+            {
+                bIsPolishLanguage = true;
+            }
         }
     }
 }

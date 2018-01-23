@@ -129,7 +129,8 @@ namespace DrawApp
 
                 var progressProcent = (1000 * i) / amountPixels;
                 backgroundWorker.ReportProgress(Convert.ToInt32(progressProcent));
-                
+                //Thread.Sleep(1);
+
                 j += 4;
             }
 
@@ -474,11 +475,38 @@ namespace DrawApp
         private void setPolishLang_Click(object sender, RoutedEventArgs e)
         {
             CultureResources.ChangeCulture(new CultureInfo("pl"));
+            /*
+            ClearOperation();
+            AddNewMenuOperationItems("pl");
+            */
+        }
+
+        private void AddNewMenuOperationItems(string localeString )
+        {
+            foreach (var plugin in operationsPluginsDictionary)
+            {
+                plugin.Value.setLanguage(localeString);
+
+                MenuItem operationDrawMenuItem = new MenuItem();
+                operationDrawMenuItem.Header = plugin.Value.GetName();
+                operationDrawMenuItem.Click += operationsMenuItem_Click;
+                operationsMenu.Items.Add(operationDrawMenuItem);
+            }
+        }
+
+        private void ClearOperation()
+        {
+            operationsMenu.Items.Clear();
         }
 
         private void setEnglishLang_Click(object sender, RoutedEventArgs e)
         {
             CultureResources.ChangeCulture(new CultureInfo("en"));
+
+            /*
+            ClearOperation();
+            AddNewMenuOperationItems("en");
+            */
         }
     }
 }

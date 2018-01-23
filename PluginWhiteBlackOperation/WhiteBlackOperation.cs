@@ -14,6 +14,21 @@ namespace PluginWhiteBlackOperation
 {
     public class WhiteBlackOperation : DrawInterface.IPluginOperations
     {
+        bool bIsPolishLanguage;
+
+        public WhiteBlackOperation()
+        {
+            bIsPolishLanguage = false;
+        }
+
+        public void setLanguage( string languageString )
+        {
+            if(languageString == "pl")
+            {
+                bIsPolishLanguage = true;
+            }
+        }
+
         public void Dispose()
         {
         }
@@ -39,7 +54,17 @@ namespace PluginWhiteBlackOperation
 
         public string GetName()
         {
-            return "Czarno-biały";
+            string nameOperation = "";
+            if( bIsPolishLanguage )
+            {
+                nameOperation = "Czarno-biały";
+            }
+            else
+            {
+                nameOperation = "Black-white";
+            }
+
+            return nameOperation;
         }
     }
 }

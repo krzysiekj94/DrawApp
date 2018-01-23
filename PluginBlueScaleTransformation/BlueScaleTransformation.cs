@@ -9,11 +9,19 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using DrawInterface;
 
 namespace PluginBlueScaleTransformation
 {
     public class BlueScaleTransformation : DrawInterface.IPluginOperations
     {
+        bool bIsPolishLanguage;
+
+        public BlueScaleTransformation()
+        {
+            bIsPolishLanguage = false;
+        }
+
         public void Dispose()
         {
         }
@@ -28,7 +36,25 @@ namespace PluginBlueScaleTransformation
 
         public string GetName()
         {
-            return "Odcień niebieski";
+            string nameOperation = "";
+            if (bIsPolishLanguage)
+            {
+                nameOperation = "Odcień niebieski";
+            }
+            else
+            {
+                nameOperation = "Blue filter";
+            }
+
+            return nameOperation;
+        }
+
+        public void setLanguage(string languageString)
+        {
+            if (languageString == "pl")
+            {
+                bIsPolishLanguage = true;
+            }
         }
     }
 }

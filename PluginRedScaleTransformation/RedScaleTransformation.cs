@@ -14,6 +14,11 @@ namespace PluginRedScaleTransformation
 {
     public class RedScaleTransformation : DrawInterface.IPluginOperations
     {
+        bool bIsPolishLanguage;
+        public RedScaleTransformation()
+        {
+            bIsPolishLanguage = false;
+        }
         public void Dispose()
         {
         }
@@ -28,7 +33,25 @@ namespace PluginRedScaleTransformation
 
         public string GetName()
         {
-            return "Odcień czerwieni";
+            string nameOperation = "";
+            if (bIsPolishLanguage)
+            {
+                nameOperation = "Odcień czerwieni";
+            }
+            else
+            {
+                nameOperation = "Red filter";
+            }
+
+            return nameOperation;
+        }
+
+        public void setLanguage(string languageString)
+        {
+            if (languageString == "pl")
+            {
+                bIsPolishLanguage = true;
+            }
         }
     }
 }

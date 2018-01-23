@@ -14,6 +14,11 @@ namespace PluginSepiaOperation
 {
     public class SepiaOperation : DrawInterface.IPluginOperations
     {
+        bool bIsPolishLanguage;
+        public SepiaOperation()
+        {
+            bIsPolishLanguage = false;
+        }
         public void Dispose()
         {
         }
@@ -61,7 +66,25 @@ namespace PluginSepiaOperation
 
         public string GetName()
         {
-            return "Sepia";
+            string nameOperation = "";
+            if (bIsPolishLanguage)
+            {
+                nameOperation = "Sepia";
+            }
+            else
+            {
+                nameOperation = "Sepia";
+            }
+
+            return nameOperation;
+        }
+
+        public void setLanguage(string languageString)
+        {
+            if (languageString == "pl")
+            {
+                bIsPolishLanguage = true;
+            }
         }
     }
 }
